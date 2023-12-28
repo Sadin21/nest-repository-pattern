@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { ItemCategoryService } from "../services/item-category.service";
 import { CreateItemCategoryDto } from "../dtos/create-item-category.dto";
 import { BaseController } from "src/core/controllers/base.controller";
@@ -22,6 +22,12 @@ export class ItemCategoryController extends BaseController {
     @Get()
     public async findAll(): Promise<QueryResponse> {
         const data = await this.service.findAll();
+        return this.createSuccessObj(data);
+    }
+
+    @Get(':id')
+    public async findOneById(@Param('id') id: number): Promise<BaseResponse> {
+        const data = await this.service.findOneById(id);
         return this.createSuccessObj(data);
     }
 }

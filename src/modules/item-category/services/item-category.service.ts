@@ -22,4 +22,12 @@ export class ItemCategoryService {
     async findAll(): Promise<ItemCategoryEntity[]> {
         return await this.repository.findAll();
     }
+
+    async findOneById(id: number): Promise<ItemCategoryEntity> {
+        const data =  await this.repository.findOneById(id);
+        // if (!data) {
+        //   throw new Error('Item category not found');  
+        // }
+        return data;
+    }
 }

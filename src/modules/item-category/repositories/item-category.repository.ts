@@ -24,4 +24,8 @@ export class ItemCategoryRepository extends Repository<ItemCategoryEntity> {
     public async findAll(): Promise<ItemCategoryEntity[]> {
         return this.find();
     }
+
+    public async findOneById(id: any): Promise<ItemCategoryEntity | null> {
+        return this.findOneBy({ id: id });
+    }
 }
