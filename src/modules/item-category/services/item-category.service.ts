@@ -1,8 +1,10 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { ItemCategoryRepository } from "../repositories/item-category.repository";
 import { ItemCategoryEntity } from "../entity/item-category.entity";
 import { CreateItemCategoryDto } from "../dtos/create-item-category.dto";
 import { QueryItemCategoryDto } from "../dtos/query-item-category.dto";
+import { error } from "console";
+import { UpdateItemCategoryDto } from "../dtos/update-item-category.dto";
 
 @Injectable()
 export class ItemCategoryService {
@@ -12,22 +14,47 @@ export class ItemCategoryService {
     ) {}
 
     async create(data: CreateItemCategoryDto): Promise<ItemCategoryEntity> {
-        // try {
+        try {
             return await this.repository.store(data);
-        // } catch (errro) {
-        //     this.logger.error(error);
-        // }
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    async update(id: number, data: UpdateItemCategoryDto): Promise<ItemCategoryEntity> {
+        try {
+            await this.findOneById(id);
+            return await this.repository.updateOne(id, data);
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    async delete(id: number) {
+        try {
+            return await this.repository.destroy(id);
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 
     async findAll(): Promise<ItemCategoryEntity[]> {
-        return await this.repository.findAll();
+        try {
+            return await this.repository.findAll();
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 
     async findOneById(id: number): Promise<ItemCategoryEntity> {
-        const data =  await this.repository.findOneById(id);
-        // if (!data) {
-        //   throw new Error('Item category not found');  
-        // }
-        return data;
+        try {
+            const data =  await this.repository.findOneById(id);
+            // if (!data) {
+            //     throw new NotFoundException(`not found`);
+            // }
+            return data;
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 }
