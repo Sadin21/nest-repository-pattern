@@ -7,6 +7,7 @@ import { ormConfig } from './config/ormconfig';
 import { ItemCategoryModule } from './modules/item-category/item-category.module';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
+import { ItemModule } from './modules/item/item.module';
 
 const timezoned = () => {
   return new Date().toLocaleString('en-US', {
@@ -58,6 +59,7 @@ const timezoned = () => {
 
     // modules
     ItemCategoryModule,
+    ItemModule
   ],
   controllers: [AppController],
   providers: [AppService],
